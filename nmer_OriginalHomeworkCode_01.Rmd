@@ -26,3 +26,100 @@ u
 u <- str_split_1(u, " ")
 u[seq(from = 1, to = 22, by = 3)]
 ```
+
+## Challenge 2
+
+```{r Challenge2, echo=TRUE}
+m <- matrix(data = 1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+```
+
+### extracting 2nd, 3rd, and 6th columns 
+
+```{r Challenge2 part 1, echo=TRUE}
+x <- c(m[, 2], m[, 3], m[, 6])
+x
+```
+
+### extracting 6th to 8th rows
+
+```{r Challenge2 part 2, echo=TRUE}
+x <- c(m[6, ], m[7, ], m[8, ])
+x
+```
+
+### extracting the elements from row 2, column 2 to row 6, column 9
+
+```{r Challenge2 part 3, echo=TRUE}
+x <- c(m[2, ], m[, 2:6], m[, 9])
+x
+```
+
+## Challenge 3
+Create a 4-dimensional 400 element array (5x5x4x4) named a consisting of numbers 400 to 1 (descending)
+Subsetting this array requires 4 coordinates. Each one corresponds to a location/dimension. It's easiest to work backwards so the farthest right dimension working left to figure out how it gets a result. When a dimension is missing, it results any of the 4 options. 
+
+```{r Challenge3, echo=TRUE}
+a <- array(data = 400:1, dim = c(5, 5, 4, 4))
+a
+a[1, 1, 1, 2]
+a[2, 3, 2, ]
+a[1:5, 1:5, 3, 3]
+```
+
+## Challenge 4
+Create lists within lists to reconstruct a primate phylogeny
+
+```{r Challenge 5, echo=TRUE}
+Lemuroidea <- c("Cheirogaleidae", "Lepilemuridae", "Indriidae", "Lemuridae",
+    "Daubentoniidae")
+Lorisoidea <- c("Lorisidae", "Galagidae")
+Strepsirhini <- list(Lemuroidea, Lorisoidea)
+names(Strepsirhini) <- list("Lemuroidea", "Lorisoidea")
+Strepsirhini
+Tarsioidea <- c("Tarsiidae")
+Catarrhini <- c("Cercopithecidae", "Hylobatidae", "Hominidae")
+Platyrrhini <- c("Cebidae", "Atelidae", "Pitheciidae")
+Anthropoidea <- list(Platyrrhini, Catarrhini)
+names(Anthropoidea) <- list("Platyrrhini", "Catarrhini")
+Haplorhini <- list(Anthropoidea, Tarsioidea)
+names(Haplorhini) <- list("Anthropoidea", "Tarsioidea")
+Primates <- list(Haplorhini, Strepsirhini)
+names(Primates) <- list("Haplorhini", "Stepsirhini")
+Primates
+```
+
+## Challenge 5
+Store the following numbers as a 5 x 3 matrix, called “m3”: 3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2. Be sure to fill the matrix ROW-WISE.
+
+```{r Challenge 5, echo-TRUE}
+m3 <- matrix(data = c(3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2), nrow = 5, ncol = 3, byrow = TRUE)
+m3
+```
+
+Coerce from Matrix to Data Frame
+
+```{r Challenge 5-2, echo-TRUE}
+m3 <- as.data.frame(m3)
+m3
+```
+
+Coerce the second column to be logic-valued
+
+```{r Challenge 5-3, echo-TRUE}
+m3 [, 2] <- as.logical(m3[, 2])
+m3
+```
+
+Coerce the third column to be factor valued
+
+```{r Challenge 5-4, echo-TRUE}
+m3 [, 3] <- as.factor(m3[, 3])
+m3
+```
+
+Use structure to see the data type for each variable (column)
+
+```{r Challenge 5-5, echo-TRUE}
+str(m3)
+```
