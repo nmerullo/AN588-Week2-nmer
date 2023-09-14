@@ -6,7 +6,23 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+require(stringr)
 ```
 
+## Challenge 1
 
+```{r Challenge1, echo=TRUE}
+u <- c("stately", "plump", "buck", "mulligan", "came", "from", "the", "stairhead", "bearing", "a", "bowl", "of", "lather", "on", "which", "a", "mirror", "and", "a", "razor", "lay", "crossed")
+u
+u[seq(from = 1, to = 22, by = 3)]
+```
+
+Trying again with the str_split() command
+leaving the pattern argument blank (just closed quotation marks) would break it up by character, adding the space broke it up by word. 
+
+```{r Challenge1 take 2, echo=TRUE}
+u <- c("Stately plump Buck Mulligan came from the stairhead bearing a bowl of lather on which a mirror and a razor lay crossed")
+u
+u <- str_split_1(u, " ")
+u[seq(from = 1, to = 22, by = 3)]
+```
