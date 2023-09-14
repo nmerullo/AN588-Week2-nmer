@@ -2,7 +2,10 @@
 title: "nmer_OriginalHomeworkCode_01"
 author: "Nicole Merullo"
 date: "2023-09-14"
-output: html_document
+output: 
+  html_document:
+    theme: yeti
+    highlight: NULL
 ---
 
 ```{r setup, include=FALSE}
