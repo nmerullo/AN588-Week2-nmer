@@ -1,0 +1,204 @@
+---
+title: "Peerlogin_PeerCommentary_erinea_01"
+author: "Erin Anderson"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Challenges Faced
+1. At first, I had a very hard time deciphering what exactly I needed to do with the Challenge 1 sentence and it required rereading the instructions multiple times. Once I figured out that I need to just input the sentence and use some version of str_split() to break up the sentence into a character vector, it got easier. I read the documentation for the stringr package and decided which variation of the str_split() function to use. str_split_1() converts a string to a character vector so I thought that would be the easiest way to then subset the vector to every third element. I then tried the whole thing again with the gsub function to remove punctuation.
+
+2. For Challenge 2 part 3 where we needed to extract multiple adjacent columns, I was worried at first I would have to type them out separately. I tried using colon notation within the brackets like this [, 2:6] and it worked!
+
+3. For coercing parts of data frames to different classes (challenge 5), I could easily figure out how to use the as.factor or as.logical functions to run subsetted columns or rows as different classes, but then saving them to the variable was more tricky. I am still not sure this is the most efficient way to do it because it seems highly redundant but I ended up with this m3 [, 2] <- as.logical(m3[, 2]) where I am saving the subset column (in this case column 2) as a logical but then in the argument of the function I have to put essentially the same notation of m3 subset to column 2. 
+
+```{r setup, include=FALSE}
+require(stringr)
+```
+
+## Challenge 1
+First, create a vector of 1, word character strings comprising the first line of the novel Ulysses, by James Joyce: “Stately, plump Buck Mulligan came from the stairhead, bearing a bowl of lather on which a mirror and a razor lay crossed.”
+
+Then, extract every third element of this vector.
+
+First attempt - manually entering each word into quotations to create a character vector.
+
+```{r Challenge1-1, echo=TRUE}
+u <- c("stately", "plump", "buck", "mulligan", "came", "from", "the", "stairhead", "bearing", "a", "bowl", "of", "lather", "on", "which", "a", "mirror", "and", "a", "razor", "lay", "crossed")
+u
+u[seq(from = 1, to = 22, by = 3)]
+```
+
+Trying again with the str_split_1() command which turns a string into a character vector.
+leaving the pattern argument blank (just closed quotation marks) would break it up by character, adding the space broke it up by word. 
+
+```{r Challenge1-2, echo=TRUE}
+u <- c("Stately plump Buck Mulligan came from the stairhead bearing a bowl of lather on which a mirror and a razor lay crossed")
+u
+u <- str_split_1(u, " ")
+u[seq(from = 1, to = 22, by = 3)]
+```
+
+Trying one more time adding the gsub function to remove punctuation.
+
+```{r Challenge1-3, echo=TRUE}
+u <- c("Stately, plump Buck Mulligan came from the stairhead, bearing a bowl of lather on which a mirror and a razor lay crossed.")
+u <- gsub("[[:punct:]]","",u)
+u
+u <- str_split_1(u, " ")
+u
+u[seq(from = 1, to = 22, by = 3)]
+```
+
+## Challenge 2
+
+Given the matrix, m,extract the 2nd, 3rd, and 6th columns and assign them to the variable x
+
+Given the matrix, m, extract the 6th to 8th row and assign them to the variable x
+
+Given the matrix, m, extract the elements from row 2, column 2 to row 6, column 9 and assign them to the variable x
+
+```{r Challenge2-1, echo=TRUE}
+m <- matrix(data = 1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+```
+
+### extracting 2nd, 3rd, and 6th columns 
+
+```{r Challenge2-2, echo=TRUE}
+x <- c(m[, 2], m[, 3], m[, 6])
+x
+```
+
+### extracting 6th to 8th rows
+
+```{r Challenge2-3, echo=TRUE}
+x <- c(m[6, ], m[7, ], m[8, ])
+x
+```
+
+### extracting the elements from row 2, column 2 to row 6, column 9
+For this one I used the colon notation for extracting columns 2:6 to make this more efficient.
+```{r Challenge2-4, echo=TRUE}
+x <- c(m[2, ], m[, 2:6], m[, 9])
+x
+```
+
+## Challenge 3
+
+Construct a 4-dimensional, 400 element array (5 x 5 x 4 x 4) named a consisting of the numbers 400 to 1 (i.e., a descending series)
+
+Given this matrix, what would the following return?
+
+a[1, 1, 1, 2]
+
+a[2, 3, 2, ]
+
+a[1:5, 1:5, 3, 3]
+
+
+Subsetting this array requires 4 coordinates to get a single position. Each one corresponds to a location/dimension. It's easiest to work backwards so the farthest right dimension working left to figure out where it is finding the result.
+
+```{r Challenge3, echo=TRUE}
+a <- array(data = 400:1, dim = c(5, 5, 4, 4))
+a
+```
+```{r Challenge3-1, echo=TRUE}
+a[1, 1, 1, 2]
+```
+This is an exact location because it has 4 coordinates.
+
+```{r Challenge3-2, echo=TRUE}
+a[2, 3, 2, ]
+```
+This returns four options (in a list?) because the last coordinate is missing so it could be in any of the 4 4th levels (arrays? matrices?)
+.
+```{r Challenge3-3, echo=TRUE}
+a[1:5, 1:5, 3, 3]
+```
+This returns 25 options in a matrix because we are looking for any of the rows 1 to 5 and any of the columns 1 to 5 (which are both the max) but only in the 3rd matrix (3rd level) and always in the 3rd 4th level.
+
+## Challenge 4
+
+Create a list representing this (simplified) primate taxonomy:
+
+I used lists within lists to do this.
+
+```{r Challenge 5, echo=TRUE}
+Lemuroidea <- c("Cheirogaleidae", "Lepilemuridae", "Indriidae", "Lemuridae",
+    "Daubentoniidae")
+Lorisoidea <- c("Lorisidae", "Galagidae")
+Strepsirhini <- list(Lemuroidea, Lorisoidea)
+names(Strepsirhini) <- list("Lemuroidea", "Lorisoidea")
+Strepsirhini
+Tarsioidea <- c("Tarsiidae")
+Catarrhini <- c("Cercopithecidae", "Hylobatidae", "Hominidae")
+Platyrrhini <- c("Cebidae", "Atelidae", "Pitheciidae")
+Anthropoidea <- list(Platyrrhini, Catarrhini)
+names(Anthropoidea) <- list("Platyrrhini", "Catarrhini")
+Haplorhini <- list(Anthropoidea, Tarsioidea)
+names(Haplorhini) <- list("Anthropoidea", "Tarsioidea")
+Primates <- list(Haplorhini, Strepsirhini)
+names(Primates) <- list("Haplorhini", "Stepsirhini")
+Primates
+```
+
+## Challenge 5
+
+Store the following numbers as a 5 x 3 matrix, called “m3”: 3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2. Be sure to fill the matrix ROW-WISE.
+
+Then, do the following:
+
+Coerce the matrix to a data frame.
+
+As a data frame, coerce the second column to be logical-valued
+
+As a data frame, coerce the third column to be factor-valued
+
+When you are done, use the str() command to show the data type for each variable in your dataframe.
+
+```{r Challenge 5-1, echo-TRUE}
+m3 <- matrix(data = c(3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2), nrow = 5, ncol = 3, byrow = TRUE)
+m3
+```
+
+### Coerce from Matrix to Data Frame
+
+```{r Challenge 5-2, echo-TRUE}
+m3 <- as.data.frame(m3)
+m3
+```
+
+### Coerce the second column to be logic-valued
+
+```{r Challenge 5-3, echo-TRUE}
+m3 [, 2] <- as.logical(m3[, 2])
+m3
+```
+
+### Coerce the third column to be factor valued
+
+```{r Challenge 5-4, echo-TRUE}
+m3 [, 3] <- as.factor(m3[, 3])
+m3
+```
+
+### Use structure to see the data type for each variable (column)
+
+```{r Challenge 5-5, echo-TRUE}
+str(m3)
+```
+
+### PEER COMMENTS
+First of all I really like how you made each challenge into an individual chunk. I think it makes looking at your code very digestable and easy to view. 
+
+Maybe for challenge two you could use different variables other than just x so the program doesn't overwrite your code you worked on each time.
+
+For challenge 2, I liked your method of extracting multiple columns with one variable as that was something I struggled with figuring out.
+
+Maybe try and play around with the themes of your YAML for the final project. Overall I think your code was really nice and succinct! Also I'm sorry for sharing so many documents with you I was troubleshooting GitHub lol.
