@@ -5,10 +5,6 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 
 ## Challenges Faced
 1. At first, I had a very hard time deciphering what exactly I needed to do with the Challenge 1 sentence and it required rereading the instructions multiple times. Once I figured out that I need to just input the sentence and use some version of str_split() to break up the sentence into a character vector, it got easier. I read the documentation for the stringr package and decided which variation of the str_split() function to use. str_split_1() converts a string to a character vector so I thought that would be the easiest way to then subset the vector to every third element. I then tried the whole thing again with the gsub function to remove punctuation.
@@ -16,10 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 2. For Challenge 2 part 3 where we needed to extract multiple adjacent columns, I was worried at first I would have to type them out separately. I tried using colon notation within the brackets like this [, 2:6] and it worked!
 
 3. For coercing parts of data frames to different classes (challenge 5), I could easily figure out how to use the as.factor or as.logical functions to run subsetted columns or rows as different classes, but then saving them to the variable was more tricky. I am still not sure this is the most efficient way to do it because it seems highly redundant but I ended up with this m3 [, 2] <- as.logical(m3[, 2]) where I am saving the subset column (in this case column 2) as a logical but then in the argument of the function I have to put essentially the same notation of m3 subset to column 2. 
-
-```{r setup, include=FALSE}
-require(stringr)
-```
 
 
 ### PEER COMMENTS
